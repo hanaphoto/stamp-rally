@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QRコード・URL一覧（主催者用）｜スタンプラリー</title>
+<style>
+  body{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif; background:#fff; color:#222; line-height:1.6; }
+  main{ max-width:760px; margin:0 auto; padding:20px 16px 40px; }
+  h1{ font-size:20px; }
+  .spot{ border:1px solid #ddd; border-radius:12px; padding:16px; margin:14px 0; display:flex; gap:16px; align-items:flex-start; page-break-inside:avoid; }
+  .spot .qr{ flex:0 0 auto; }
+  .spot .info{ flex:1; min-width:0; }
+  .spot h2{ margin:0 0 6px; font-size:17px; }
+  .spot .url{ font-size:12px; word-break:break-all; background:#f6f6f6; border-radius:8px; padding:8px; }
+  .spot button{ margin-top:8px; padding:7px 14px; border-radius:8px; border:1px solid #d9333f; background:#fff; color:#d9333f; font-size:13px; }
+  .toolbar{ margin:16px 0; }
+  .toolbar button{ padding:9px 18px; border-radius:8px; border:none; background:#d9333f; color:#fff; font-size:14px; }
+  @media print{
+    .toolbar, .no-print{ display:none; }
+    .spot{ border-color:#999; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>QRコード・URL一覧（主催者用）</h1>
+  <p class="no-print">各スポットのNFCタグには、このURLをNFC Tools等で書き込んでください。QRコードは同じURLから生成しています。印刷ボタンで一括印刷できます。</p>
+  <div class="toolbar"><button type="button" onclick="window.print()">一括印刷</button></div>
+  <div id="list"></div>
+  <p class="no-print"><a href="manual.html">説明書に戻る</a> ／ <a href="index.html">スタンプ帳に戻る</a></p>
+</main>
+<script src="lib/qrcode.min.js"></script>
+<script>
+"use strict";
+async function init(){
+  const res = await fetch("config.json", { cache: "no-cache" });
+  const config = await res.json();
+  const base = location.origin + location.pathname.replace(/qr\.html$/, "index.html");
+  const list = document.getElementById("list");
+  for(const spot of config.spots){
+    const url = base + "?s=" + encodeURIComponent(spot.id) + "&k=" + encodeURIComponent(spot.key);
+    const box = document.createElement("div"); box.className = "spot";
+    const qrBox = document.createElement("div"); qrBox.className = "qr";
+    try{
+      const qr = qrcode(0, "M");
+      qr.addData(url);
+      qr.make();
+      qrBox.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 8, scalable: true });
+      const svg = qrBox.querySelector("svg");
+      if(svg){ svg.setAttribute("width","132"); svg.setAttribute("height","132"); }
+    }catch(e){
+      qrBox.textContent = "QR生成に失敗しました";
+    }
+    const info = document.createElement("div"); info.className = "info";
+    const h = document.createElement("h2"); h.textContent = spot.id + "：" + spot.name;
+    const urlDiv = document.createElement("div"); urlDiv.className = "url"; urlDiv.textContent = url;
+    const btn = document.createElement("button"); btn.type = "button"; btn.textContent = "URLをコピー";
+    btn.addEventListener("click", async () => {
+      try{ await navigator.clipboard.writeText(url); btn.textContent = "コピーしました"; }
+      catch(e){ btn.textContent = "コピーできませんでした"; }
+      setTimeout(() => { btn.textContent = "URLをコピー"; }, 2000);
+    });
+    info.appendChild(h); info.appendChild(urlDiv); info.appendChild(btn);
+    box.appendChild(qrBox); box.appendChild(info);
+    list.appendChild(box);
+  }
+}
+init();
+</script>
+</body>
+</html>

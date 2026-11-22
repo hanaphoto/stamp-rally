@@ -1,0 +1,17 @@
+{
+  "background_color": "#fff8f5",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "images/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "name": "スタンプラリー",
+  "scope": "./",
+  "short_name": "スタンプラリー",
+  "start_url": "./index.html",
+  "theme_color": "#d9333f"
+}

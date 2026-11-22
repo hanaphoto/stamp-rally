@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>説明書｜スタンプラリー</title>
+<style>
+  body{ margin:0; font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif; background:#fff8f5; color:#222; line-height:1.8; }
+  main{ max-width:640px; margin:0 auto; padding:20px 16px 40px; }
+  h1{ font-size:22px; color:#d9333f; }
+  h2{ font-size:18px; border-left:5px solid #d9333f; padding-left:10px; margin-top:32px; }
+  li{ margin:6px 0; }
+  .back{ display:inline-block; margin-top:24px; color:#d9333f; }
+  .note{ background:#fff4d6; border:1px solid #e0b73c; border-radius:10px; padding:10px 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>スタンプラリー 説明書</h1>
+
+  <h2>参加する方へ</h2>
+  <ol>
+    <li>各スポットにあるNFCタグにスマートフォンをタッチするか、QRコードを読み取ってください。</li>
+    <li><strong>iPhoneの方：</strong>タグにタッチすると画面の上に通知が出ます。その通知をタップするとスタンプ帳が開きます。</li>
+    <li>スタンプ帳が開くと、そのスポットのスタンプが自動で押されます。順番は自由です。</li>
+    <li>ブラウザ（iPhoneはSafari）でそのまま使ってください。ホーム画面に追加すると記録が別になってしまうことがあるので、追加せずに使うのがおすすめです。</li>
+    <li>決められた個数のスタンプが集まると達成です。全部集まるとコンプリート画面が出ます。</li>
+    <li>コンプリート画面（達成日時と達成コードが表示されます）をスタッフに見せると、景品・特典と交換できます。</li>
+  </ol>
+  <p class="note">通信について：最初に1回だけ、通信できる場所でスタンプ帳を開いてください。「オフライン利用の準備ができました」と表示された後は、通信できない場所でも遊べます。記録はお使いのスマートフォンの中だけに保存されます。ブラウザの履歴・データを消すと記録も消えるのでご注意ください。</p>
+
+  <h2>主催者・スタッフの方へ</h2>
+  <ul>
+    <li>設定は config.json で変更します（イベント名、スポット名とキー、達成個数、開催期間）。変更したら sw.js の CACHE_VERSION を上げてください。</li>
+    <li>各スポットのURLは <a href="qr.html">QRコード・URL一覧（主催者用）</a> で確認できます。NFCタグへの書き込みはNFC Tools等のアプリで、このURLをそのまま書き込んでください。QRコードも同じURLから生成されます。</li>
+    <li>タグを金属面に直接貼ると読み取りにくい場合があります。設置前に実機で読み取りテストをしてください。</li>
+    <li>景品交換時：参加者のコンプリート画面で、イベント名・達成日時・達成コードを確認してください。交換したコードは控えておくと二重交換の抑止になります。</li>
+    <li>開催期間を設定した場合、期間外はスタンプが押せません（取得済みの閲覧はできます）。期間判定は端末の時計を使うため、厳密な制限ではありません。</li>
+  </ul>
+
+  <a class="back" href="index.html">← スタンプ帳に戻る</a>
+</main>
+</body>
+</html>
